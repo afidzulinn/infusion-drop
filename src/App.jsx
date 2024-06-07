@@ -118,7 +118,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-backend-webgl";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebaseConfig';
 import Loader from "./components/loader";
@@ -154,6 +154,7 @@ const MainApp = () => {
   const [isDrop, setIsDrop] = useState(false);
   const [model, setModel] = useState({ net: null, inputShape: [1, 0, 0, 3] });
   const [calculateDrop, setCalculateDrop] = useState(0);
+  const navigate = useNavigate();
   const imageRef = useRef(null);
   const cameraRef = useRef(null);
   const videoRef = useRef(null);
@@ -162,6 +163,13 @@ const MainApp = () => {
   const modelName = "fix";
 
   useEffect(() => {
+
+    const auth = localStorage.getItem('token');
+    console.log(auth)
+    if(auth == null){
+      navigate('/login')
+      // <Navigate to={"/login"}></Navigate>
+    }
     tf.ready().then(async () => {
       const yolov8 = await tf.loadGraphModel(
         `${window.location.href}/${modelName}_web_model/model.json`,
@@ -255,6 +263,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<ProtectedRoute><MainApp /></ProtectedRoute>} />
+        {/* <Redirect from="/" to="/login" /> */}
       </Routes>
     </Router>
   );
