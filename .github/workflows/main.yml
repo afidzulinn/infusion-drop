@@ -1,15 +1,16 @@
 name: Docker
 
-on:
+'on':
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-
 
 jobs:
   build:
