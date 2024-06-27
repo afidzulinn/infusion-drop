@@ -16,7 +16,7 @@ export default defineConfig({
   // origin: "http://0.0.0.0:8901",
  },
     build: {
-        chunkSizeWarningLimit: 10000,
+        chunkSizeWarningLimit: 100000,
             rollupOptions: {
                 output:{
                     manualChunks(id) {
