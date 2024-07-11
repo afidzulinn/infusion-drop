@@ -10,10 +10,9 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
-
 jobs:
   build:
-    runs-on:
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
@@ -23,9 +22,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           lfs: true
+
       - name: Setup ENV
         run: |
           echo "${{ vars.ENV_FILE }}" > .env
+
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v2
 
@@ -62,3 +63,15 @@ jobs:
         uses: distributhor/workflow-webhook@v3
         env:
           webhook_url: ${{ vars.PORTAINER_WEBHOOK_URL }}
+
+      - name: Install sshpass
+        run: sudo apt-get install sshpass
+
+      - name: Deploy to DigitalOcean
+        env:
+          HOST: ${{ secrets.DIGITALOCEAN_HOST }}
+          USER: root
+          PASS: ${{ secrets.DIGITALOCEAN_ROOT_PASSWORD }}
+        run: |
+          sshpass -p $PASS ssh -o StrictHostKeyChecking=no $USER@$HOST << EOF
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
