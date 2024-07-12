@@ -24,9 +24,11 @@ COPY . .
 RUN npm run build
 
 # Apache stage
-FROM httpd:2.4-alpine
+FROM httpd:2.4
 COPY --from=builder /app/dist /usr/local/apache2/htdocs/
-COPY httpd.conf /usr/local/apache2/conf/httpd.conf
+
+# Konfigurasi Apache bisa ditambahkan di sini jika diperlukan
+# COPY ./my-httpd.conf /usr/local/apache2/conf/httpd.conf
 
 EXPOSE 80
-CMD ["httpd", "-D", "FOREGROUND"]
+CMD ["httpd-foreground"]
