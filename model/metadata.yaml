@@ -1,0 +1,14 @@
+description: Ultralytics infusion-drop8 model trained on dataset/data.yaml
+author: Ultralytics
+date: '2024-07-17T11:00:59.211978'
+version: 8.2.58
+license: AGPL-3.0 License (https://ultralytics.com/license)
+docs: https://docs.ultralytics.com
+stride: 32
+task: detect
+batch: 1
+imgsz:
+- 640
+- 640
+names:
+  0: drop

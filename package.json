@@ -8,10 +8,6 @@
     "preview": "vite preview",
     "deploy": "gh-pages -d dist"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Hyuto/yolov8-tfjs.git"
-  },
   "keywords": [
     "object detection",
     "yolov8",
@@ -19,12 +15,6 @@
     "react",
     "tensorflow.js"
   ],
-  "author": "Wahyu Setianto",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Hyuto/yolov8-tfjs/issues"
-  },
-  "homepage": "https://github.com/Hyuto/yolov8-tfjs#readme",
   "dependencies": {
     "@tensorflow/tfjs": "^4.1.0",
     "bootstrap": "^5.3.3",
