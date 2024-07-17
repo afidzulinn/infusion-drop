@@ -1,19 +1,17 @@
-name: Docker
+name: Docker CI/CD
 
-'on':
+on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,11 +20,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          lfs: true
-      - name: Setup ENV
-        run: |
-          echo "${{ vars.ENV_FILE }}" > .env
+
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v2
 
@@ -56,10 +50,11 @@ jobs:
           cache-to: type=gha,mode=max
 
   deploy:
-    needs: build
+    needs: build-and-push
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Invoke portainer hook
+      - name: Invoke Portainer webhook
         uses: distributhor/workflow-webhook@v3
         env:
-          webhook_url: ${{ vars.PORTAINER_WEBHOOK_URL }}
+          webhook_url: ${{ secrets.PORTAINER_WEBHOOK_URL }}

@@ -5,7 +5,6 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 RUN npm install && npm install firebase
-RUN npm install react-router-dom
 
 COPY . .
 

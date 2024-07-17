@@ -3,29 +3,15 @@ version: "3.9"
 services:
   app:
     container_name: infusion-drop
-    image: ghcr.io/graphie-newfemme/infusion-drop:main
+    image: ghcr.io/afidzulinn/infusion-drop:main
     networks:
-      - br0
+      - bridge
     volumes:
       - webapp-infusion-drop-vol:/app
     restart: on-failure
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              device_ids: ['0']
-              capabilities: [ gpu ]
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=br0
-
-      - traefik.http.routers.infusionDrop.rule=Host(`infusion-drop.ai.newfemme.co`)
-      - traefik.http.routers.infusionDrop.entrypoints=http
-      - traefik.http.services.infusionDrop.loadbalancer.server.port=80
 
 networks:
-  br0:
+  bridge:
     external: true
 volumes:
   webapp-infusion-drop-vol:
