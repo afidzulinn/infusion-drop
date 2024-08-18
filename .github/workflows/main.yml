@@ -63,15 +63,3 @@ jobs:
         uses: distributhor/workflow-webhook@v3
         env:
           webhook_url: ${{ vars.PORTAINER_WEBHOOK_URL }}
-
-      - name: Install sshpass
-        run: sudo apt-get install sshpass
-
-      - name: Deploy to DigitalOcean
-        env:
-          HOST: ${{ secrets.DIGITALOCEAN_HOST }}
-          USER: root
-          PASS: ${{ secrets.DIGITALOCEAN_ROOT_PASSWORD }}
-        run: |
-          sshpass -p $PASS ssh -o StrictHostKeyChecking=no $USER@$HOST << EOF
-            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
